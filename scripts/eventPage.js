@@ -19,8 +19,9 @@ function updateBatteryLevel(level, isCharging) {
 /**
  * Makes a http request to the iftt webhook specified in options.js
  * @param {Boolean} turnOn - true if a request to the "Turn On" routine should be made, else false
+ * @param {Function} callback - a callback function to be called, will be passed the status code of the HTTP request as arg
  */
-const makeReq = (turnOn) => {
+const makeReq = (turnOn, callback = null) => {
   chrome.storage.sync.get({
     apiKey: "",
     onEventName: "",
@@ -48,6 +49,9 @@ const makeReq = (turnOn) => {
       req.onreadystatechange = function () { // Call a function when the state changes.
         if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
           // console.log("Got response 200!"); // Success
+          if (callback != null) {
+            callback(this.status)
+          }
         }
       }
     }
@@ -69,7 +73,7 @@ const handleBatteryLevel = (level, isCharging) => {
   }, function (items) {
     if (level > items.maxCharge && isCharging) {
       makeReq(false);
-    } 
+    }
     if (level < items.minCharge && !isCharging) {
       makeReq(true);
     }
