@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const eventName = "comp_batt_high";
     const apiKey = "8XGpdlz5pZqNFdaRgPJFd";
     const baseUrl = "https://maker.ifttt.com/trigger/" + eventName + "/with/key/" + apiKey;
-    const value1= "1";
+    const value1 = "1";
     const value2 = "2"
     const urlParams = `value1=${value1}&value2=${value2}`;
 
@@ -44,6 +44,15 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     }
   }
+
+  // Launch Options Page
+  document.querySelector('#go-to-options').addEventListener('click', function () {
+    if (chrome.runtime.openOptionsPage) {
+      chrome.runtime.openOptionsPage();
+    } else {
+      window.open(chrome.runtime.getURL('options.html'));
+    }
+  });
 
   navigator.getBattery().then(battery => {
     let date = new Date(null);

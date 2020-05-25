@@ -19,8 +19,10 @@
     "default_popup": "popup.html",
     "default_icon": "images/icon-not-charging.png"
   },
+  "options_page": "options.html",
   "permissions": [
     "alarms",
+    "storage",
     "https://maker.ifttt.com/*"
   ]
 }
