@@ -3,7 +3,7 @@ function updateBatteryLevel(level, isCharging) {
   const chargingStatus = isCharging ? 'charging' : 'not-charging';
 
   chrome.browserAction.setIcon({
-    path: `./images/icon-${ chargingStatus }.png`
+    path: `./images/icon-${chargingStatus}.png`
   });
 
   chrome.browserAction.setBadgeText({
