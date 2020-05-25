@@ -1,24 +1,54 @@
 <!DOCTYPE html>
 <html>
-<head><title>Charge Control Options</title></head>
+
+<head>
+    <title>Charge Control Options</title>
+</head>
+
 <body>
+    <table>
+        <tr>
+            <td> Max Charge %</td>
+            <td>
+                <input type="number" name="" id="max-charge-percent">
+            </td>
+        </tr>
+        <tr>
+            <td> Minimum Charge %</td>
+            <td>
+                <input type="number" name="" id="min-charge-percent">
+            </td>
+        </tr>
+        <tr>
+            <td> <a href="https://ifttt.com/maker_webhooks/settings" target="_blank">Webhook API Key</a> </td>
+            <td>
+                <input type="password" name="" id="api-key" placeholder="key...">
 
-Favorite color:
-<select id="color">
- <option value="red">red</option>
- <option value="green">green</option>
- <option value="blue">blue</option>
- <option value="yellow">yellow</option>
-</select>
+            </td>
+        </tr>
+        <tr>
+            <td>Show API Key</td>
+            <td><input type="checkbox" name="" id="show-api-key"></td>
+        </tr>
+        <tr>
+            <td> "On" Event Name</a> </td>
+            <td>
+                <input type="text" name="" id="on-event-name" placeholder="event_name...">
+            </td>
+        </tr>
+        <tr>
+            <td> "Off" Event Name</a> </td>
+            <td>
+                <input type="text" name="" id="off-event-name" placeholder="event_name...">
+            </td>
+        </tr>
+    </table>
 
-<label>
-  <input type="checkbox" id="like">
-  I like colors.
-</label>
+    <div id="status"></div>
+    <button id="save">Save</button>
+    <button id="close">Close</button>
 
-<div id="status"></div>
-<button id="save">Save</button>
-
-<script src="options.js"></script>
+    <script src="options.js"></script>
 </body>
+
 </html>
