@@ -9,60 +9,6 @@ document.addEventListener('DOMContentLoaded', function () {
     timeText: ''
   }
 
-  // Add test buttons
-
-  const lowBattery = () => {
-    // console.log("LOW")
-    makeReq(true);
-  }
-
-  const highBattery = () => {
-    // console.log("HIGH")
-    makeReq(false);
-  }
-
-  // document.getElementById("low-batt").addEventListener('click', lowBattery);
-  // document.getElementById("high-batt").addEventListener('click', highBattery);
-
-  // Make HTTP Request
-
-  const makeReq = (turnOn = false) => {
-
-    chrome.storage.sync.get({
-      apiKey: "",
-      onEventName: "",
-      offEventName: ""
-    }, function (items) {
-      if (items.apiKey == "" ||
-        items.onEventName == "" ||
-        items.onEventName == "") {
-        alert(`Couldn't control your power supply. 
-        The apiKey, Turn On, and Turn Off event names all must be set 
-        in settings`);
-      } else {
-        const req = new XMLHttpRequest();
-        const eventName = turnOn ? items.onEventName : items.offEventName;
-        const apiKey = items.apiKey;
-        const baseUrl = "https://maker.ifttt.com/trigger/" + eventName + "/with/key/" + apiKey;
-        const value1 = "1"; // Not used, but can be used in certain routines
-        const value2 = "2"
-        const urlParams = `value1=${value1}&value2=${value2}`;
-
-        req.open("POST", baseUrl, true);
-        req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        req.send(urlParams);
-
-        req.onreadystatechange = function () { // Call a function when the state changes.
-          if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
-            // console.log("Got response 200!"); // Success
-          }
-        }
-      }
-    });
-
-
-  }
-
   // Launch Options Page
   document.querySelector('#go-to-options').addEventListener('click', function () {
     if (chrome.runtime.openOptionsPage) {
