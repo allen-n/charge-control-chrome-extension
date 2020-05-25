@@ -43,6 +43,25 @@
       width: 30px;
       height: 30px;
     }
+
+    .option_btn {
+      color: #fff !important;
+      text-decoration: none;
+      background: #434343;
+      width: 40vw;
+      padding: 5vw;
+      margin-bottom: 5vh;
+      border-radius: 2vw;
+      display: inline-block;
+      border: none;
+      align-self: center;
+      transition: all 0.4s ease 0s;
+    }
+
+    .option_btn:hover {
+      background: #3062ed;
+      transition: all 0.4s ease 0s;
+    }
   </style>
 </head>
 
@@ -61,11 +80,7 @@
     </svg>
     <div id="status"></div>
   </div>
-  <div class="btns">
-    <button id="low-batt">Low Charge</button>
-    <button id="high-batt">High Charge</button>
-    <button id="go-to-options">Go to options</button>
-  </div>
+  <div class="button_cont" align="center"><button id="go-to-options" class="option_btn">Options</button></div>
   <script src="scripts/popup.js"></script>
 </body>
 
