@@ -33,6 +33,7 @@ const makeReq = (turnOn, callback = null) => {
       console.error(`Couldn't control your power supply. 
         The apiKey, Turn On, and Turn Off event names all must be set 
         in settings`);
+      // TODO: Change browser icon
     } else {
       const req = new XMLHttpRequest();
       const eventName = turnOn ? items.onEventName : items.offEventName;
@@ -48,7 +49,10 @@ const makeReq = (turnOn, callback = null) => {
 
       req.onreadystatechange = function () { // Call a function when the state changes.
         if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
-          // console.log("Got response 200!"); // Success
+          // Update charge symbol on state change
+          navigator.getBattery().then(battery => {
+            updateBatteryLevel(battery.level, battery.charging);
+          });
           if (callback != null) {
             callback(this.status)
           }
@@ -71,10 +75,10 @@ const handleBatteryLevel = (level, isCharging) => {
     maxCharge: 80,
     minCharge: 20,
   }, function (items) {
-    if (level > items.maxCharge && isCharging) {
+    if (level >= items.maxCharge && isCharging) {
       makeReq(false);
     }
-    if (level < items.minCharge && !isCharging) {
+    if (level <= items.minCharge && !isCharging) {
       makeReq(true);
     }
   });
