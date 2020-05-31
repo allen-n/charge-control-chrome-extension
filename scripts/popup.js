@@ -18,6 +18,23 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   });
 
+  // Use on/off button
+  document.querySelector('#on-off-switch').addEventListener('click', function (e) {
+    var onOff = document.querySelector('#myonoffswitch')
+    chrome.storage.sync.set({
+      isActive: onOff.checked
+    });
+    // console.log(onOff.checked)
+    // setTimeout(function () {
+    //   onOff.checked = true;
+    // }, 1000);
+  })
+  chrome.storage.sync.get({
+    isActive: true
+  }, function (items) {
+    document.querySelector('#myonoffswitch').checked = items.isActive
+  })
+
   navigator.getBattery().then(battery => {
     let date = new Date(null);
 
@@ -69,3 +86,4 @@ document.addEventListener('DOMContentLoaded', function () {
     statusElement.innerHTML = markup;
   });
 });
+
