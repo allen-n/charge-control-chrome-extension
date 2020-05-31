@@ -18,6 +18,11 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   });
 
+  // Use on/off button
+  document.querySelector('#on-off-switch').addEventListener('click', function (e) {
+    console.log(e)
+  })
+
   navigator.getBattery().then(battery => {
     let date = new Date(null);
 
@@ -69,3 +74,4 @@ document.addEventListener('DOMContentLoaded', function () {
     statusElement.innerHTML = markup;
   });
 });
+

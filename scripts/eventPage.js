@@ -1,10 +1,11 @@
 function updateBatteryLevel(level, isCharging) {
   const batteryLevelText = level !== 1 ? (level * 100).toFixed() : '';
   const chargingStatus = isCharging ? 'charging' : 'not-charging';
+  const connectStatus = '';
 
   chrome.browserAction.setIcon({
-    path: `./images/icon-${chargingStatus}.png`
-  });
+    path: `./images/icon-${chargingStatus}${connectStatus}.png`
+  }, error_callback);
 
   chrome.browserAction.setBadgeText({
     text: batteryLevelText
@@ -13,6 +14,14 @@ function updateBatteryLevel(level, isCharging) {
   chrome.browserAction.setBadgeBackgroundColor({
     color: [94, 97, 106, 255]
   });
+}
+
+function error_callback() {
+  if (chrome.runtime.lastError) {
+      console.log(chrome.runtime.lastError.message);
+  } else {
+      // Tab exists
+  }
 }
 
 

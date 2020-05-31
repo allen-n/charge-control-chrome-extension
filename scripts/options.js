@@ -62,40 +62,47 @@ function restore_options() {
  * @param {Function} callback - a callback function to be called, will be passed the status code of the HTTP request as arg
  */
 const makeReq = (turnOn, callback = null) => {
-    chrome.storage.sync.get({
-        apiKey: "",
-        onEventName: "",
-        offEventName: ""
-    }, function (items) {
-        if (items.apiKey == "" ||
-            items.onEventName == "" ||
-            items.offEventName == "") {
-            console.error(`Couldn't control your power supply. 
-          The apiKey, Turn On, and Turn Off event names all must be set 
-          in settings`);
-        } else {
-            const req = new XMLHttpRequest();
-            const eventName = turnOn ? items.onEventName : items.offEventName;
-            const apiKey = items.apiKey;
-            const baseUrl = "https://maker.ifttt.com/trigger/" + eventName + "/with/key/" + apiKey;
-            const value1 = "1"; // Not used, but can be used in certain routines
-            const value2 = "2"
-            const urlParams = `value1=${value1}&value2=${value2}`;
+  chrome.storage.sync.get({
+    apiKey: "",
+    onEventName: "",
+    offEventName: ""
+  }, function (items) {
+    if (items.apiKey == "" ||
+      items.onEventName == "" ||
+      items.offEventName == "") {
+      console.error(`Couldn't control your power supply. 
+        The apiKey, Turn On, and Turn Off event names all must be set 
+        in settings`);
+      // TODO: Change browser icon
+    } else {
+      const req = new XMLHttpRequest();
+      const eventName = turnOn ? items.onEventName : items.offEventName;
+      const apiKey = items.apiKey;
+      const baseUrl = "https://maker.ifttt.com/trigger/" + eventName + "/with/key/" + apiKey;
+      const value1 = "1"; // Not used, but can be used in certain routines
+      const value2 = "2"
+      const urlParams = `value1=${value1}&value2=${value2}`;
 
-            req.open("POST", baseUrl, true);
-            req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-            req.send(urlParams);
+      req.open("POST", baseUrl, true);
+      req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+      req.send(urlParams);
 
-            req.onreadystatechange = function () { // Call a function when the state changes.
-                if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
-                    // console.log("Got response 200!"); // Success
-                    if (callback != null) {
-                        callback(this.status)
-                    }
-                }
-            }
+      req.onreadystatechange = function () { // Call a function when the state changes.
+        if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+          // Update charge symbol on state change
+          navigator.getBattery().then(battery => {
+            updateBatteryLevel(battery.level, battery.charging);
+          });
+          if (callback != null) {
+            callback(this.status)
+            chrome.storage.sync.set({
+              apiIsConnected: true
+            });
+          }
         }
-    });
+      }
+    }
+  });
 }
 document.addEventListener('DOMContentLoaded', restore_options);
 document.getElementById('save').addEventListener('click',
