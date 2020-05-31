@@ -18,9 +18,9 @@ function updateBatteryLevel(level, isCharging) {
 
 function error_callback() {
   if (chrome.runtime.lastError) {
-      console.log(chrome.runtime.lastError.message);
+    console.log(chrome.runtime.lastError.message);
   } else {
-      // Tab exists
+    // Tab exists
   }
 }
 
@@ -83,12 +83,15 @@ const handleBatteryLevel = (level, isCharging) => {
   chrome.storage.sync.get({
     maxCharge: 80,
     minCharge: 20,
+    isActive: true,
   }, function (items) {
-    if (level >= items.maxCharge && isCharging) {
-      makeReq(false);
-    }
-    if (level <= items.minCharge && !isCharging) {
-      makeReq(true);
+    if (items.isActive) {
+      if (level >= items.maxCharge && isCharging) {
+        makeReq(false);
+      }
+      if (level <= items.minCharge && !isCharging) {
+        makeReq(true);
+      }
     }
   });
 }
