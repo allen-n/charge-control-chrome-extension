@@ -1,10 +1,9 @@
 function updateBatteryLevel(level, isCharging) {
   const batteryLevelText = level !== 1 ? (level * 100).toFixed() : '';
   const chargingStatus = isCharging ? 'charging' : 'not-charging';
-  const connectStatus = '';
-
+  console.log("PATH: ", `./images/icon-${chargingStatus}.png`)
   chrome.browserAction.setIcon({
-    path: `./images/icon-${chargingStatus}${connectStatus}.png`
+    path: `./images/icon-${chargingStatus}.png`
   }, error_callback);
 
   chrome.browserAction.setBadgeText({
