@@ -1,25 +1,25 @@
 // Saves options to chrome.storage
 function save_options() {
-    var maxCharge = document.getElementById('max-charge-percent').value
-    var minCharge = document.getElementById('min-charge-percent').value
-    var apiKey = document.getElementById('api-key').value
-    var onEventName = document.getElementById('on-event-name').value
-    var offEventName = document.getElementById('off-event-name').value
+  var maxCharge = document.getElementById('max-charge-percent').value
+  var minCharge = document.getElementById('min-charge-percent').value
+  var apiKey = document.getElementById('api-key').value
+  var onEventName = document.getElementById('on-event-name').value
+  var offEventName = document.getElementById('off-event-name').value
 
-    chrome.storage.sync.set({
-        maxCharge: maxCharge,
-        minCharge: minCharge,
-        apiKey: apiKey,
-        onEventName: onEventName,
-        offEventName: offEventName
-    }, function () {
-        // Update status to let user know options were saved.
-        var status = document.getElementById('status');
-        status.textContent = 'Options saved!';
-        setTimeout(function () {
-            status.textContent = '';
-        }, 1500);
-    });
+  chrome.storage.sync.set({
+    maxCharge: maxCharge,
+    minCharge: minCharge,
+    apiKey: apiKey,
+    onEventName: onEventName,
+    offEventName: offEventName
+  }, function () {
+    // Update status to let user know options were saved.
+    var status = document.getElementById('status');
+    status.textContent = 'Options saved!';
+    setTimeout(function () {
+      status.textContent = '';
+    }, 1500);
+  });
 }
 
 /**
@@ -27,32 +27,32 @@ function save_options() {
  * @param {Number} statusNum - 200 if req good, else other
  */
 function reqTestCallback(statusNum) {
-    // Update status to let user know options were saved.
-    var status = document.getElementById('status');
-    status.textContent = statusNum == 200 ? "Request Successful (but check your switch state)!" : "Request unsuccessful, check event names and api key"
-    setTimeout(function () {
-        status.textContent = '';
-    }, 4000);
+  // Update status to let user know options were saved.
+  var status = document.getElementById('status');
+  status.textContent = statusNum == 200 ? "Request Successful (but check your switch state)!" : "Request unsuccessful, check event names and api key"
+  setTimeout(function () {
+    status.textContent = '';
+  }, 4000);
 }
 
 // Restores select box and checkbox state using the preferences
 // stored in chrome.storage.
 function restore_options() {
-    // Use default value color = 'red' and likesColor = true.
-    chrome.storage.sync.get({
-        maxCharge: 80,
-        minCharge: 20,
-        apiKey: "",
-        onEventName: "",
-        offEventName: ""
-    }, function (items) {
-        document.getElementById('max-charge-percent').value = items.maxCharge
-        document.getElementById('min-charge-percent').value = items.minCharge
-        document.getElementById('api-key').value = items.apiKey
-        document.getElementById('on-event-name').value = items.onEventName
-        document.getElementById('off-event-name').value = items.offEventName
-    });
-    console.log("Options restored")
+  // Use default value color = 'red' and likesColor = true.
+  chrome.storage.sync.get({
+    maxCharge: 80,
+    minCharge: 20,
+    apiKey: "",
+    onEventName: "",
+    offEventName: ""
+  }, function (items) {
+    document.getElementById('max-charge-percent').value = items.maxCharge
+    document.getElementById('min-charge-percent').value = items.minCharge
+    document.getElementById('api-key').value = items.apiKey
+    document.getElementById('on-event-name').value = items.onEventName
+    document.getElementById('off-event-name').value = items.offEventName
+  });
+  console.log("Options restored")
 }
 
 /**
@@ -70,10 +70,13 @@ const makeReq = (turnOn, callback = null) => {
     if (items.apiKey == "" ||
       items.onEventName == "" ||
       items.offEventName == "") {
-      console.error(`Couldn't control your power supply. 
-        The apiKey, Turn On, and Turn Off event names all must be set 
-        in settings`);
-      // TODO: Change browser icon
+      var status = document.getElementById('status');
+      status.textContent = `Couldn't control your power supply. 
+      The apiKey, Turn On, and Turn Off event names all must be set 
+      in settings`
+      setTimeout(function () {
+        status.textContent = '';
+      }, 4000);
     } else {
       const req = new XMLHttpRequest();
       const eventName = turnOn ? items.onEventName : items.offEventName;
@@ -90,9 +93,6 @@ const makeReq = (turnOn, callback = null) => {
       req.onreadystatechange = function () { // Call a function when the state changes.
         if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
           // Update charge symbol on state change
-          navigator.getBattery().then(battery => {
-            updateBatteryLevel(battery.level, battery.charging);
-          });
           if (callback != null) {
             callback(this.status)
             chrome.storage.sync.set({
@@ -106,17 +106,17 @@ const makeReq = (turnOn, callback = null) => {
 }
 document.addEventListener('DOMContentLoaded', restore_options);
 document.getElementById('save').addEventListener('click',
-    save_options);
+  save_options);
 document.getElementById('test-on').addEventListener('click', () => { makeReq(true, reqTestCallback) })
 document.getElementById('test-off').addEventListener('click', () => { makeReq(false, reqTestCallback) })
 document.getElementById('close').addEventListener('click', () => {
-    window.close();
+  window.close();
 });
 document.getElementById('show-api-key').addEventListener('click', () => {
-    var x = document.getElementById("api-key");
-    if (x.type === "password") {
-        x.type = "text";
-    } else {
-        x.type = "password";
-    }
+  var x = document.getElementById("api-key");
+  if (x.type === "password") {
+    x.type = "text";
+  } else {
+    x.type = "password";
+  }
 });

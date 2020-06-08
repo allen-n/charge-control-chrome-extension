@@ -24,15 +24,15 @@ document.addEventListener('DOMContentLoaded', function () {
     chrome.storage.sync.set({
       isActive: onOff.checked
     });
-    // console.log(onOff.checked)
-    // setTimeout(function () {
-    //   onOff.checked = true;
-    // }, 1000);
   })
   chrome.storage.sync.get({
-    isActive: true
+    isActive: true,
+    apiIsConnected: false
   }, function (items) {
     document.querySelector('#myonoffswitch').checked = items.isActive
+    if (!items.apiIsConnected && items.isActive) {
+      document.getElementById('error-status').innerHTML += "<p>Error: API not connected. Check Options.</p>"
+    }
   })
 
   navigator.getBattery().then(battery => {

@@ -37,6 +37,7 @@ The extension is using the [Battery Status API](https://developer.mozilla.org/en
 
 ## Detailed Usage Instructions
 Copied from the [wiki](https://github.com/allen-n/charge-control-chrome-extension/wiki)
+_Note: As of the most recent update Gosund outlets have had their IFTT integration disabled, but any othe IFTT enabled outlet should still work_
 
 1.  Getting the smart outlets: I'm using [Smart Plug, Gosund Mini WiFi Outlet](https://smile.amazon.com/gp/product/B079MFTYMV/ref=ppx_yo_dt_b_asin_title_o03_s00?ie=UTF8&psc=1). But any smart plug that can interact with [IFTT](https://ifttt.com/) should work. The rest of this walkthrough will assume you're using these outlets, but the steps should be easily transferrable if you aren't.
 2. [Log in](https://ifttt.com/) or [create](https://ifttt.com/join) an IFTT account.
@@ -44,12 +45,12 @@ Copied from the [wiki](https://github.com/allen-n/charge-control-chrome-extensio
 4. Click _This_ and search for "webhooks". Click it, then click "receive web request". Then you'll want to give it a name, something like "outlet_off" will do. Just don't put blank spaces like " " in the name! ![Outlet Off Webhook Image](https://i.imgur.com/4WTPJX9.jpg)
 5. Now select _that_. ![Select That Image](https://i.imgur.com/sYcRqpY.jpg)
 6. Search for your smart outlet developer. For GoSund, search for "smart life".![Smart Life Logo](https://i.imgur.com/O02XM9A.jpg)
-5. Log in with your GoSund account, and select the off event (you'll do "on" for the second event). ![On/Off Events Image](https://i.imgur.com/y0qSfew.jpg)
-6. Select the outlet you want to control from the menu, create the event, uncheck "Receive notifications when this applet runs, and click finish. ![Select Outlet Image](https://i.imgur.com/00r6r03.jpg)
-7. Repeat steps 3-6, but this time naming the event something along the lines of "outlet_on" in step 4, and selecting the off event in step 5. You now have your two event names!
-8. Get your API key by clicking "documentation on [this page](https://ifttt.com/maker_webhooks). ![Documentation Page](https://i.imgur.com/Jq08e2q.jpg)
-9. The string at the top of your page after "Your key is:" is your key, record it!
-10. Open the extension menu, click "options", and add the information as follows: webhook API key is the key from step 8, 
+7. Log in with your GoSund account, and select the off event (you'll do "on" for the second event). ![On/Off Events Image](https://i.imgur.com/y0qSfew.jpg)
+8. Select the outlet you want to control from the menu, create the event, uncheck "Receive notifications when this applet runs, and click finish. ![Select Outlet Image](https://i.imgur.com/00r6r03.jpg)
+9. Repeat steps 3-6, but this time naming the event something along the lines of "outlet_on" in step 4, and selecting the off event in step 5. You now have your two event names!
+10. Get your API key by clicking "documentation on [this page](https://ifttt.com/maker_webhooks). ![Documentation Page](https://i.imgur.com/Jq08e2q.jpg)
+11. The string at the top of your page after "Your key is:" is your key, record it!
+12. Open the extension menu, click "options", and add the information as follows: webhook API key is the key from step 8, 
 "Turn On" Event Name is the event name with "on" in it from the second time you did step 4, and "Turn Off" Event Name is the event name with "off" in it from the first time you did step 4. ![Options Menu Image](https://i.imgur.com/JZ0n8Na.jpg)
 11. Press save, and you're ready to roll! Test the outlet control by clicking "Test Turn On/Off", which should turn your outlet on and off. If everything is working, you're set to go.
 12. Don't forget to turn the extension off via the popup menu if you want to charge to 100% before a day out on the town :) ![On/Off Button Popup Image](https://i.imgur.com/gF0ooAd.jpg)

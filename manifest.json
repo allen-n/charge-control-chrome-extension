@@ -1,8 +1,8 @@
 {
   "manifest_version": 2,
   "name": "Charge Controller",
-  "version": "1.0",
-  "description": "Maintain battery between selected percentages to optimize lifetime on Chromebooks",
+  "version": "1.1",
+  "description": "Maintain battery between selected percentages to optimize battery lifetime on any computer running Chrome.",
   "icons": {
     "16": "images/icon-16.png",
     "32": "images/icon-32.png",
