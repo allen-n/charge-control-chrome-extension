@@ -70,10 +70,13 @@ const makeReq = (turnOn, callback = null) => {
     if (items.apiKey == "" ||
       items.onEventName == "" ||
       items.offEventName == "") {
-      console.error(`Couldn't control your power supply. 
-        The apiKey, Turn On, and Turn Off event names all must be set 
-        in settings`);
-      // TODO: Change browser icon
+      var status = document.getElementById('status');
+      status.textContent = `Couldn't control your power supply. 
+      The apiKey, Turn On, and Turn Off event names all must be set 
+      in settings`
+      setTimeout(function () {
+        status.textContent = '';
+      }, 4000);
     } else {
       const req = new XMLHttpRequest();
       const eventName = turnOn ? items.onEventName : items.offEventName;

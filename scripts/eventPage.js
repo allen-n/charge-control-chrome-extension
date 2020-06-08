@@ -38,10 +38,9 @@ const makeReq = (turnOn, callback = null) => {
     if (items.apiKey == "" ||
       items.onEventName == "" ||
       items.offEventName == "") {
-      console.error(`Couldn't control your power supply. 
-        The apiKey, Turn On, and Turn Off event names all must be set 
-        in settings`);
-      // TODO: Change browser icon
+      chrome.storage.sync.set({
+        apiIsConnected: false
+      });
     } else {
       const req = new XMLHttpRequest();
       const eventName = turnOn ? items.onEventName : items.offEventName;
@@ -63,6 +62,9 @@ const makeReq = (turnOn, callback = null) => {
           });
           if (callback != null) {
             callback(this.status)
+            chrome.storage.sync.set({
+              apiIsConnected: true
+            });
           }
         }
       }
